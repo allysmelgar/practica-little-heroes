@@ -35,14 +35,15 @@ lamismaArea condicion unaArea personaje  =  (condicion (mismaArea unaArea). cono
 chamuyar unaArea personaje = lamismaArea any unaArea personaje
 
 --5.	Su poder de ataque, es el ataque más un 10% de su agresividad. Si está desmayado no tiene poder de ataque.
---porderAtaque personaje |  (not.desmayado) personaje = aumentarPoder personaje
---                       | otherwise = noTienePoder personaje 
---aumentarPoder personaje = personaje { caracteristicas = sumaDeAtaque caracteristicas}
+porderAtaque personaje |  noestaDesmayado personaje = sumapoder personaje
+                       |  otherwise = 0
+sumapoder personaje = (ataque.caracteristicas) personaje +  ((*0.1).agresividad.caracteristicas) personaje
 
---sumaDeAtaque caracteristicas = caracteristicas {ataque = ataque caracteristicas + suma personaje}
---suma personaje = (ataque.caracteristicas) personaje +  ((*0.1).agresividad.caracteristicas) personaje
+noestaDesmayado = ((>0).vida)
 
 --6.	Su poder de defensa. Si está desmayado no tiene poder de defensa.
+poderDefensa personaje | noestaDesmayado personaje = (defensa.caracteristicas) personaje
+                       | otherwise = 0
 
 
 --7	Cuales pueden ser héroes, estos son los que sus agallas sean mayores a 100 o Baymax -Baymax no necesita agallas para ser un Héroe,
@@ -99,14 +100,14 @@ usarEquipamiento personaje = foldr ($) personaje (equipamientos personaje)
 
 --	pelearConKabuki, luego de equiparse, todos los integrantes que estén listos para la batalla y además puedan ser héroes, 
 --si no existiera ninguno siempre se puede recurrir a baymax.
-
+{-
 cumpleCon personajes =  any ( (>=1) .length) personajes
 
 existeAlguno unEquipo condicion personajes =   ( condicion. listosParaLaBatalla . map (agregarEquipo unEquipo)) personajes
 
 personjerQueCumplen personajes | cumpleCon personajes =  existeAlguno unEquipo condicion personajes
                                | otherwise = [baymax]
-
+-}
 
 --	convencerALaTia, luego de equiparse, todos los integrantes que puedanChamuyar sobre “Comida”, 
 -- si no existiera ninguno siempre se puede recurrir a baymax.
